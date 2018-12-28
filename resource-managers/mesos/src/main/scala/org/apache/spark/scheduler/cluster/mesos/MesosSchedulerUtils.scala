@@ -102,7 +102,12 @@ trait MesosSchedulerUtils extends Logging {
       new MesosSchedulerDriver(
         scheduler, fwInfoBuilder.build(), masterUrl, credBuilder.build())
     } else {
+      logInfo(s"lele MesosSchedulerDriver begins, ha ha $masterUrl")
+      logDebug("lele wants to connect mesos")
+      logInfo(s"$appName")
+      //      println("lele mesos connection")
       new MesosSchedulerDriver(scheduler, fwInfoBuilder.build(), masterUrl)
+//      new LeleSchedulerDriver(scheduler, fwInfoBuilder.build(), masterUrl)
     }
   }
 
