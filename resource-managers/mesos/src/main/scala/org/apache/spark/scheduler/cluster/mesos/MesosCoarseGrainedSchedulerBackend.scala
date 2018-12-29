@@ -415,7 +415,7 @@ private[spark] class MesosCoarseGrainedSchedulerBackend(
       if (tasks.contains(offer.getId)) { // accept
         val offerTasks = tasks(offer.getId)
 
-        logInfo(s"lele Accepting offer: $id with attributes: $offerAttributes " +
+        logInfo(s"lele 418 Accepting offer: $id with attributes: $offerAttributes " +
           offerReservationInfo.map(resInfo =>
             s"reservation info: ${resInfo.getReservation.toString}").getOrElse("") +
           s"mem: $offerMem cpu: $offerCpus ports: $offerPorts " +
@@ -529,7 +529,7 @@ private[spark] class MesosCoarseGrainedSchedulerBackend(
             gpusByTaskId(taskId) = taskGPUs
           }
         } else {
-          logDebug(s"Cannot launch a task for offer with id: $offerId on slave " +
+          logInfo(s"Cannot launch a task for offer with id: $offerId on slave " +
             s"with id: $slaveId. Requirements were not met for this offer.")
         }
       }
