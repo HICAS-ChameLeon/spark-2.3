@@ -64,7 +64,7 @@ private[spark] class MesosExecutorBackend
       .getOrElse(0)
     val executorId = executorInfo.getExecutorId.getValue
 
-    logInfo(s"Registered with Mesos as executor ID $executorId with $cpusPerTask cpus")
+    logInfo(s"lele Registered with Mesos as executor ID $executorId with $cpusPerTask cpus")
     this.driver = driver
     // Set a context class loader to be picked up by the serializer. Without this call
     // the serializer would default to the null class loader, and fail to find Spark classes
@@ -84,6 +84,8 @@ private[spark] class MesosExecutorBackend
   }
 
   override def launchTask(d: ExecutorDriver, taskInfo: TaskInfo) {
+    logInfo(s"lele launchTask ")
+
     val taskDescription = TaskDescription.decode(taskInfo.getData.asReadOnlyByteBuffer())
     if (executor == null) {
       logError("Received launchTask but executor was null")

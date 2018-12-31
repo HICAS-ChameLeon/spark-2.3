@@ -56,7 +56,7 @@ private[spark] class CoarseGrainedExecutorBackend(
   private[this] val ser: SerializerInstance = env.closureSerializer.newInstance()
 
   override def onStart() {
-    logInfo("Connecting to driver: " + driverUrl)
+    logInfo("lele Connecting to driver: " + driverUrl)
     rpcEnv.asyncSetupEndpointRefByURI(driverUrl).flatMap { ref =>
       // This is a very fast action so we can use "ThreadUtils.sameThread"
       driver = Some(ref)
@@ -78,7 +78,7 @@ private[spark] class CoarseGrainedExecutorBackend(
 
   override def receive: PartialFunction[Any, Unit] = {
     case RegisteredExecutor =>
-      logInfo("Successfully registered with driver")
+      logInfo("lele 81 Successfully registered with driver")
       try {
         executor = new Executor(executorId, hostname, env, userClassPath, isLocal = false)
       } catch {
@@ -94,7 +94,7 @@ private[spark] class CoarseGrainedExecutorBackend(
         exitExecutor(1, "Received LaunchTask command but executor was null")
       } else {
         val taskDesc = TaskDescription.decode(data.value)
-        logInfo("Got assigned task " + taskDesc.taskId)
+        logInfo("lele Got assigned task " + taskDesc.taskId)
         executor.launchTask(this, taskDesc)
       }
 
@@ -107,7 +107,7 @@ private[spark] class CoarseGrainedExecutorBackend(
 
     case StopExecutor =>
       stopping.set(true)
-      logInfo("Driver commanded a shutdown")
+      logInfo("lele Driver commanded a shutdown")
       // Cannot shutdown here because an ack may need to be sent back to the caller. So send
       // a message to self to actually do the shutdown.
       self.send(Shutdown)
@@ -125,13 +125,13 @@ private[spark] class CoarseGrainedExecutorBackend(
       }.start()
 
     case UpdateDelegationTokens(tokenBytes) =>
-      logInfo(s"Received tokens of ${tokenBytes.length} bytes")
+      logInfo(s"lele Received tokens of ${tokenBytes.length} bytes")
       SparkHadoopUtil.get.addDelegationTokens(tokenBytes, env.conf)
   }
 
   override def onDisconnected(remoteAddress: RpcAddress): Unit = {
     if (stopping.get()) {
-      logInfo(s"Driver from $remoteAddress disconnected during shutdown")
+      logInfo(s"lele Driver from $remoteAddress disconnected during shutdown")
     } else if (driver.exists(_.address == remoteAddress)) {
       exitExecutor(1, s"Driver $remoteAddress disassociated! Shutting down.", null,
         notifyDriver = false)
@@ -144,7 +144,7 @@ private[spark] class CoarseGrainedExecutorBackend(
     val msg = StatusUpdate(executorId, taskId, state, data)
     driver match {
       case Some(driverRef) => driverRef.send(msg)
-      case None => logWarning(s"Drop $msg because has not yet connected to driver")
+      case None => logWarning(s"lele Drop $msg because has not yet connected to driver")
     }
   }
 
@@ -184,6 +184,7 @@ private[spark] object CoarseGrainedExecutorBackend extends Logging {
       userClassPath: Seq[URL]) {
 
     Utils.initDaemon(log)
+    logInfo("lele 187 CoarseGrainedExecutorBackend run(...)")
 
     SparkHadoopUtil.get.runAsSparkUser { () =>
       // Debug code
@@ -214,7 +215,7 @@ private[spark] object CoarseGrainedExecutorBackend extends Logging {
         }
       }
       if (driverConf.contains("spark.yarn.credentials.file")) {
-        logInfo("Will periodically update credentials from: " +
+        logInfo("lele Will periodically update credentials from: " +
           driverConf.get("spark.yarn.credentials.file"))
         Utils.classForName("org.apache.spark.deploy.yarn.YarnSparkHadoopUtil")
           .getMethod("startCredentialUpdater", classOf[SparkConf])
