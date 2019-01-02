@@ -125,6 +125,7 @@ private[spark] class MesosExecutorBackend
 private[spark] object MesosExecutorBackend extends Logging {
   def main(args: Array[String]) {
     Utils.initDaemon(log)
+    logInfo(s"lele 128 MesosExecutorBackend main")
     // Create a new Executor and start it running
     val runner = new MesosExecutorBackend()
     new MesosExecutorDriver(runner).run()

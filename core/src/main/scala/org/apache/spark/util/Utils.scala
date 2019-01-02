@@ -2605,7 +2605,8 @@ private[spark] object Utils extends Logging {
    * diagnostic state.
    */
   def initDaemon(log: Logger): Unit = {
-    log.info(s"Started daemon with process name: ${Utils.getProcessName()}")
+    log.info(s"lele 2608 org/apache/spark/util/Utils.scala")
+    log.info(s"lele Started daemon with process name: ${Utils.getProcessName()}")
     SignalUtils.registerLogger(log)
   }
 
